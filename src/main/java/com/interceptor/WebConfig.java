@@ -1,5 +1,6 @@
 package com.interceptor;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -15,6 +16,14 @@ import java.util.List;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
+    @Autowired
+    private AuthorizationInterceptor authorizationInterceptor;
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(authorizationInterceptor).addPathPatterns("/**").excludePathPatterns("/static/**");
+//        registry.addInterceptor(authorizationInterceptor).addPathPatterns("/**").excludePathPatterns("/login", "/static");
+    }
     @Override
     public void configurePathMatch(PathMatchConfigurer pathMatchConfigurer) {
 
@@ -41,14 +50,8 @@ public class WebConfig implements WebMvcConfigurer {
     }
 
     @Override
-    public void addInterceptors(InterceptorRegistry interceptorRegistry) {
+    public void addResourceHandlers(ResourceHandlerRegistry resourceHandlerRegistry) {
 
-    }
-
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        //将所有/static/** 访问都映射到classpath:/static/ 目录下
-        registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
     }
 
     @Override
