@@ -81,7 +81,7 @@
 <blockquote class="layui-elem-quote layui-quote-nm layui-hide" id="footer">layui {{ layui.v }} 提供强力驱动</blockquote>
 
 <#--获取静态资源路径：方案二 -->
-<script src="${request.contextPath}/static/layui/layui.js"></script>
+<script src="${basePath}/layui/layui.js"></script>
 <#--<script src="http://blog.aigouzhushou.com/layui-v2.4.3/layui-v2.4.5/layui.js"></script>-->
 <script>
     var table = null;
