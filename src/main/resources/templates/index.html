@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>index.html</title>
+	
+    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="description" content="this is my page">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    
+    <!--<link rel="stylesheet" type="text/css" href="./styles.css">-->
+	<script src="static/js/jquery-3.3.1.min.js"></script>
+  </head>
+  
+  <body>
+  <!--在html 界面需在html 标签里引用地址 。thymeleaf 使用的是OGNL 标签，和jstl 标签差不多  -->
+  <p th:text="${yu}"></p>
+    This is my HTML page.高希阳 <span th:text="${yu}"></span><br>
+     <code class="language-java"><table class="table">
+		<thead>
+			<th th:each="userhead : ${userhead}" th:text="${userhead.key}"></th>
+			<th th:each="userhead : ${userhead}" th:text="${userhead.value}"></th>
+		</thead>
+		<tbody >
+			<td th:each="userinfo:${userinfo}" th:text="${userinfo}"></td>
+		</tbody>
+	</table></code>
+	
+	<table border="1">
+		<tr th:each="m,iterStat : ${list}">
+			<td th:text="|下标：${iterStat.index} 下标是不是单数：${iterStat.odd}|"/>
+			<td th:text="${m}"/>
+			<td th:text="${m}"/>
+		</tr>
+	</table>
+	<br>
+	简单遍历：
+	<table border="1">
+		<tr>
+			<td>姓名</td>
+			<td>年龄</td>
+		</tr>
+		<tr th:each="m : ${list1}"><!-- 其中m是个临时变量，像for(User u : userList)那样中的u-->
+			<td th:text="${m.name}"/>
+			<td th:text="${m.age}"/>
+		</tr>
+		<input type="button" onclick="showname()" >
+	</table>
+	
+  </body>
+  <script th:inline="javaScript">
+	  //在js中获取model中的数据
+	function showname() {
+		var name = [[${yu}]]
+		alert(name)
+	}
+  </script>
+  <script type="text/javascript">
+  var a = 99;            // 全局变量a
+	f();                   // f是函数，虽然定义在调用的后面，但是函数声明会提升到作用域的顶部。 
+	console.log(a);        // a=>99,  此时是全局变量的a
+	function f() {
+	  console.log(a);      // 当前的a变量是下面变量a声明提升后，默认值undefined
+	  var a = 10;
+	  console.log(a);      // a => 10
+	}
+	console.log("var =====================")
+	for (var i = 0; i <10; i++) {  
+	  setTimeout(function() {  // 同步注册回调函数到 异步的 宏任务队列。
+	    console.log(i);        // 执行此代码时，同步代码for循环已经执行完成
+	  }, 0);
+	}// 输出结果10   共10个
+	 // 这里面的知识点： JS的事件循环机制，setTimeout的机制等
+	 
+	 console.log("let+ =====================")
+	 // i虽然在全局作用域声明，但是在for循环体局部作用域中使用的时候，变量会被固定，不受外界干扰。
+	for (let i = 0; i < 10; i++) { 
+	  setTimeout(function() {
+	    console.log(i);    //  i 是循环体内局部作用域，不受外界影响。
+	  }, 0);
+	}
+  
+  </script>
+</html>

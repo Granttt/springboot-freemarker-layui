@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.example.mapper.HotelDtoMapper">
+    <resultMap id="ListHotelDto" type="com.example.domain.Person" >
+        <result column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="age" property="age" />
+        <result column="address" property="address" />
+        <result column="school_id" property="schoolId" />
+        <result column="time" property="time" />
+    </resultMap>
+ 
+    <!-- 根据ID查询数据 -->
+    <select id="findByName" parameterType="String" resultMap="ListHotelDto">
+    	select 
+    		c.id,
+    		c.name,
+    		c.name as cityName,
+    		c.age,
+    		c.address,
+    		c.school_id
+    	from Person c 
+    	where c.name = #{country}
+    </select>
+    <select id="findListDs2" resultMap="ListHotelDto">
+        select
+    		c.id,
+    		c.name,
+    		c.name as cityName,
+    		c.age,
+    		c.address,
+    		c.school_id
+    	from Person c
+    </select>
+</mapper>
