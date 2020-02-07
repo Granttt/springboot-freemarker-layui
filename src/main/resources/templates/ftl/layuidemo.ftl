@@ -82,10 +82,12 @@
 
 <#--获取静态资源路径：方案二 -->
 <script src="${basePath}/layui/layui.js"></script>
+<#--<script src="${request.contextPath}/static/layui/layui.js"></script>-->
 <#--<script src="http://blog.aigouzhushou.com/layui-v2.4.3/layui-v2.4.5/layui.js"></script>-->
 <script>
     var table = null;
     var editData;
+    var mylimit = 5;
     layui.config({
         version: '1575889601627' //为了更新 js 缓存，可忽略
     });
@@ -121,6 +123,7 @@
             ,title: '用户表' //导出的文件名
             ,page: true //开启分页
             ,toolbar: 'default' //开启工具栏，此处显示默认图标，可以自定义模板，详见文档
+            ,defaultToolbar: [] // 数组为空 右边不显示
             ,totalRow: false //开启合计行
             ,cols: [[ //表头
                 {type: 'checkbox', fixed: 'left'}
@@ -144,17 +147,21 @@
             , skin: 'row'
             , even: true
             , limits: [3, 5, 10]
-            , limit: 5 //每页默认显示的数量
+            , limit: mylimit //每页默认显示的数量
             ,request: {
                 pageName: 'curr' //页码的参数名称，默认：page
                 ,limitName: 'nums' //每页数据量的参数名，默认：limit
             }
             , done: function (res) {
+                console.log(mylimit)
                 data = res.data;
                 count = res.count;
+                mylimit = res.count
+                console.log(mylimit)
                 //将上述表格示例导出为 csv 文件
                 // table.exportFile(ins1.config.id, data); //data 为该实例中的任意数量的数据
             }
+
         });
 
         //监听checkbox选中事件
@@ -171,7 +178,6 @@
         //监听行单击事件（双击事件为：rowDouble，单击事件：row）
         table.on('rowDouble(test)', function(obj){
             var data = obj.data;
-
             layer.alert(JSON.stringify(data), {
                 title: '当前行数据：'
             });
@@ -421,8 +427,7 @@
             ,count: 100 //总页数
             ,skin: '#1E9FFF' //自定义选中色值
             ,limit: 5
-            // ,curr: current_page
-            //,skip: true //开启跳页
+            ,skip: true //开启跳页
             ,jump: function(obj, first){
                 //obj包含了当前分页的所有参数，比如：
                 // console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
